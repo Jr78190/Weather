@@ -1,10 +1,9 @@
-# le ficher urls.py permet d'importer les views.py necessaire afin d'associer les URL
+# le ficher urls.py permet d'importer les views.py necessaire afin d'associer les URLS
+# importation de include pour importer d'autre URLS
 
-from django.contrib import admin
-from django.urls import path
-from listings import views 
+from django.urls import path, include 
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('hello/', views.hello)
+    path('', include('listings.urls') ),
 ]
