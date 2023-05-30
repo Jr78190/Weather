@@ -1,1 +1,39 @@
-<h1>hello</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css"/>
+  </head>
+<body>
+    <div class="all">
+        <form method='POST'> {% csrf_token %}
+          <input type="text" name="ville" placeholder="entrer ville">
+          <button type="submit" class="btn">Entrer</button>
+        </form>
+        <div class="weather">
+          <div class="gauche">
+              <h3>(Lieu) {{ville}}</h3>
+            <h3>(Actuellement) {{temp}}°C</h3>
+            <h3>(Min) {{temp_min}}°C/ (Max) {{temp_max}}°C</h3>
+            <h3>(Humidité) {{humidity}}%</h3>
+          </div>
+          <div class="droit">
+            <div class="icon">
+              <p><img src='http://openweathermap.org/img/w/{{icon}}.png' widht='100px' height='100px'/></p>
+            </div>
+            <div class="condition">
+              <h3><p>{{description}}</p></h3>
+              <h3><p>{{day}}</p></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html> 
+   
+
+  
