@@ -1,39 +1,95 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css"/>
-  </head>
-<body>
-    <div class="all">
-        <form method='POST'> {% csrf_token %}
-          <input type="text" name="ville" placeholder="entrer ville">
-          <button type="submit" class="btn">Entrer</button>
-        </form>
-        <div class="weather">
-          <div class="gauche">
-              <h3>(Lieu) {{ville}}</h3>
-            <h3>(Actuellement) {{temp}}°C</h3>
-            <h3>(Min) {{temp_min}}°C/ (Max) {{temp_max}}°C</h3>
-            <h3>(Humidité) {{humidity}}%</h3>
-          </div>
-          <div class="droit">
-            <div class="icon">
-              <p><img src='http://openweathermap.org/img/w/{{icon}}.png' widht='100px' height='100px'/></p>
-            </div>
-            <div class="condition">
-              <h3><p>{{description}}</p></h3>
-              <h3><p>{{day}}</p></h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </body>
-</html> 
-   
+    <title>Prévisions météo</title>
+    <style>
+ body {
+    background-color: #42a9f8;
+}
 
-  
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #f57f17;
+    margin-bottom: 20px;
+}
+
+.forecast-day {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e1f5fe;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-details {
+    display: flex;
+    align-items: center;
+}
+
+.forecast-details img {
+    margin-right: 10px;
+}
+
+p {
+    margin: 0;
+    color: #333333;
+}
+
+form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input[type="text"] {
+    margin-left: 10px;
+}
+
+form input[type="submit"] {
+    margin-left: 5px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prévisions météo pour {{ ville }}</h1>
+        
+        {% if forecast_data %}
+            {% for day, forecast in forecast_data.items %}
+                <div class="forecast-day">
+                    <h2>{{ day }}</h2>
+                    <div class="forecast-details">
+                        <img src="http://openweathermap.org/img/w/{{ forecast.icon }}.png" alt="{{ forecast.description }}">
+                        <p>{{ forecast.description }}</p>
+                        <p>Température : {{ forecast.temp }}°C</p>
+                        <p>Température minimale : {{ forecast.temp_min }}°C</p>
+                        <p>Température maximale : {{ forecast.temp_max }}°C</p>
+                        <p>Humidité : {{ forecast.humidity }}%</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucune prévision météo disponible.</p>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            <label for="ville">Ville :</label>
+            <input type="text" name="ville" id="ville" value="{{ ville }}">
+            <input type="submit" value="Chercher">
+        </form>
+    </div>
+</body>
+</html>
