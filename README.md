@@ -1,2 +1,7 @@
-# Groupe de elhasn_a 1006698
+Objectif : 
 
+Crée une application météorologique ainsi que des activité en fonction de la météo du temps 
+
+Technologies utilisées : 
+
+Django/ Python
